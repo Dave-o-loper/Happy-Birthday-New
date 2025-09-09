@@ -1091,3 +1091,61 @@ body {
     .decorate_flower--three,
     .smiley__icon { display: none !important; }
 }
+
+
+/* make the modal/card scale to available viewport and avoid huge size */
+.boxMail .boxMail-container{
+    width: min(750px, 95vw);
+    height: min(500px, 90vh);
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow: hidden;
+    transform: scale(1);
+    transition: all 0.35s ease;
+    display: flex; /* ensure flex layout for child cards */
+    flex-direction: row;
+}
+
+/* when modal is active keep container at intended scale */
+.boxMail.active .boxMail-container{
+    transform: scale(1);
+}
+
+/* adapt internal cards to the flex sizing instead of absolute full-screen */
+.boxMail .boxMail-container .card1,
+.boxMail .boxMail-container .card2{
+    position: relative;
+    width: 50%;
+    height: 100%;
+    top: auto;
+    left: auto;
+    transform: none;
+    border: 0;
+    box-sizing: border-box;
+}
+
+/* ensure content in the right card can scroll if it overflows */
+.boxMail .boxMail-container .card2 .card2-content{
+    height: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 18px;
+}
+
+/* stack vertically on small screens and limit height */
+@media (max-width: 520px) {
+    .boxMail .boxMail-container{
+        flex-direction: column;
+        width: min(420px, 95vw);
+        height: auto;
+        max-height: 92vh;
+    }
+    .boxMail .boxMail-container .card1,
+    .boxMail .boxMail-container .card2{
+        width: 100%;
+        height: auto;
+    }
+    .boxMail .boxMail-container .card2 .card2-content{
+        max-height: calc(92vh - 160px);
+    }
+}
